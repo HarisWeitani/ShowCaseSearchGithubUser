@@ -9,13 +9,16 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class GetUserUseCase @Inject constructor(private val userRepo: UserRepository){
+class GetUserUseCase @Inject constructor(private val userRepo: UserRepository) {
 
-    fun getUserList() : Flow<Result<GithubUserResponse>> {
+    fun getUserList(
+        query: String,
+        page: Int
+    ): Flow<Result<GithubUserResponse>> {
         return flow {
             try {
                 emit(Result.Loading)
-                val result = userRepo.searchUser()
+                val result = userRepo.searchUser(query, page,10)
                 emit(Result.Success(result))
             } catch (e: Exception) {
                 emit(Result.Failure(e))

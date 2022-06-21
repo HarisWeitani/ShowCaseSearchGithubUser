@@ -5,7 +5,11 @@ import com.example.ashowcasesearchgithubuser.data.remote.model.GithubUserRespons
 import com.example.ashowcasesearchgithubuser.listuser.domain.repository.UserRepository
 import javax.inject.Inject
 
-class UserRepositoryImpl @Inject constructor(val api: NetworkServices) : UserRepository {
+class UserRepositoryImpl @Inject constructor(private val api: NetworkServices) : UserRepository {
 
-    override suspend fun searchUser(): GithubUserResponse = api.search("har",0,10)
+    override suspend fun searchUser(
+        query: String,
+        page: Int,
+        itemsPerPage: Int
+    ): GithubUserResponse = api.search(query, page, itemsPerPage)
 }

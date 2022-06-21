@@ -20,7 +20,7 @@ class ListUserActivity : BaseActivity<ActivityMainBinding>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("ajib", "on Create")
-        viewModel.getUserList()
+        viewModel.getUserList("haris",10)
     }
 
 }
