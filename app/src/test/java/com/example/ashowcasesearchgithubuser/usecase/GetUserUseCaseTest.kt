@@ -2,6 +2,7 @@ package com.example.ashowcasesearchgithubuser.usecase
 
 import com.example.ashowcasesearchgithubuser.data.remote.model.GithubUserResponse
 import com.example.ashowcasesearchgithubuser.listuser.data.repository.UserRepositoryImpl
+import com.example.ashowcasesearchgithubuser.listuser.domain.model.User
 import com.example.ashowcasesearchgithubuser.listuser.domain.usecase.GetUserUseCase
 import com.example.ashowcasesearchgithubuser.util.Result
 import io.mockk.MockKAnnotations
@@ -31,8 +32,26 @@ class GetUserUseCaseTest {
         val query = "haris"
         val page = 1
         val response = GithubUserResponse(
-            listOf(),
+            listOf(
+                GithubUserResponse.Item(
+                    "asd",
+                    1,
+                    "ajib",
+                    "asd"
+                ),
+                GithubUserResponse.Item(
+                    "asd",
+                    2,
+                    "keren",
+                    "asd"
+                )
+            ),
             20
+        )
+
+        val result = listOf(
+            User(1,"ajib"),
+            User(2,"keren")
         )
 
         coEvery {
@@ -41,10 +60,20 @@ class GetUserUseCaseTest {
             response
         }
 
+        coEvery {
+            mockUserRepo.insertUserToDb(result)
+        } answers { }
+
+        coEvery {
+            mockUserRepo.getUserLocal()
+        } answers {
+            result
+        }
+
         useCase.getUserList(query, page)
             .collectIndexed { index, value ->
                 if(index == 0) value shouldBeEqualTo Result.Loading
-                if(index == 1) value shouldBeEqualTo Result.Success(response)
+                if(index == 1) value shouldBeEqualTo Result.Success(result)
             }
     }
 }

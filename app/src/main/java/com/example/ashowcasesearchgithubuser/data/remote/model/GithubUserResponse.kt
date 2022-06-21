@@ -12,11 +12,8 @@ data class GithubUserResponse(
     @Keep
     data class Item(
         val avatar_url: String,
-        val gists_url: String,
-        val gravatar_id: String,
         val id: Int,
         val login: String,
-        val type: String,
         val url: String
     )
 
