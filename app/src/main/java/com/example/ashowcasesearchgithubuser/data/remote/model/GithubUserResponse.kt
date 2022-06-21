@@ -2,6 +2,7 @@ package com.example.ashowcasesearchgithubuser.data.remote.model
 
 
 import androidx.annotation.Keep
+import com.example.ashowcasesearchgithubuser.listuser.domain.model.User
 
 @Keep
 data class GithubUserResponse(
@@ -18,4 +19,19 @@ data class GithubUserResponse(
         val type: String,
         val url: String
     )
+
+    companion object {
+        fun map(response: GithubUserResponse) : List<User> {
+            val arr = ArrayList<User>()
+            for ( data in response.items) {
+                arr.add(
+                    User(
+                        userId = data.id,
+                        name = data.login
+                    )
+                )
+            }
+            return arr
+        }
+    }
 }

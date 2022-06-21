@@ -1,5 +1,6 @@
 package com.example.ashowcasesearchgithubuser.listuser.ui
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,13 +29,17 @@ class ListUserViewModel @Inject constructor(private val useCase: GetUserUseCase)
                 .flowOn(Dispatchers.Default)
                 .collect {
                     when (it) {
-                        is Result.Loading -> _isLoading.value = false
+                        is Result.Loading -> {
+                            _isLoading.value = false
+                            Log.d("ajib","loading")
+                        }
                         is Result.Failure -> {
                             _isLoading.value = false
+                            Log.d("ajib",it.throwable?.localizedMessage?:"nah loh")
                         }
                         is Result.Success -> {
                             _isLoading.value = false
-                            _users.value = it.data.items
+                            Log.d("ajib",it.data.toString())
                         }
                     }
                 }
